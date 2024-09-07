@@ -59,6 +59,7 @@ class ModelTrainer:
             "RidgeRegression": Ridge(),
             "LassoRegression": Lasso(),
             "ElasticNet": ElasticNet(),
+            "PolynomialRegression": make_pipeline(PolynomialFeatures(), LinearRegression()),
             "DecisionTree": DecisionTreeRegressor(),
             "RandomForestRegressor": RandomForestRegressor(),
             "GradientBoostingRegressor": GradientBoostingRegressor(),
@@ -97,15 +98,13 @@ class ModelTrainer:
             "RidgeRegression": Ridge(),
             "LassoRegression": Lasso(),
             "ElasticNet": ElasticNet(),
-            "PolynomialRegression": Pipeline([
-                ('preprocessor', preprocessor),
-                ('poly', PolynomialFeatures()),
-                ('model', LinearRegression())
-            ]),
             "DecisionTree": DecisionTreeRegressor(),
             "RandomForestRegressor": RandomForestRegressor(),
             "GradientBoostingRegressor": GradientBoostingRegressor(),
-            "SupportVectorMachine": SVR(),
+            "SupportVectorMachine": Pipeline([
+                ('preprocessor', preprocessor),
+                ('model', SVR())
+            ]),
             "KNearestNeighbors": KNeighborsRegressor(),
             "XGBoost": XGBRegressor(),
             "LightGBM": LGBMRegressor(),
@@ -116,11 +115,12 @@ class ModelTrainer:
             param_grid = config.Config.HYPERPARAMETERS.get(model_name.replace(' ', ''))
             if param_grid:
                 print(f"\nTuning hyperparameters for {model_name}...")
+                # Adjust parameter names for models within pipelines
+                if 'Pipeline' in str(type(model)):
+                    param_grid = {f'model__{key}': value for key, value in param_grid.items()}
+
                 best_model, best_params, best_score = HyperparameterTuner.tune_model(
-                    Pipeline([
-                        ('preprocessor', preprocessor),
-                        ('model', model)
-                    ]),
+                    model,
                     param_grid, X_train, y_train
                 )
                 metrics = ModelTrainer.evaluate_model(best_model, X_test, y_test, return_metrics=True)
