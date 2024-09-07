@@ -49,8 +49,9 @@ def main():
 
     print("Training and evaluating models")
     # Train and evaluate models
-    initial_results = ModelTrainer.train_and_evaluate_all_models(X_train, y_train, X_test, y_test)
     tuned_results = ModelTrainer.tune_and_evaluate_models(X_train, y_train, X_test, y_test)
+
+    initial_results = ModelTrainer.train_and_evaluate_all_models(X_train, y_train, X_test, y_test)
 
     print("Exporting results to CSV")
     # Export results to CSV

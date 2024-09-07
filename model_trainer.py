@@ -59,7 +59,6 @@ class ModelTrainer:
             "RidgeRegression": Ridge(),
             "LassoRegression": Lasso(),
             "ElasticNet": ElasticNet(),
-            "PolynomialRegression": make_pipeline(PolynomialFeatures(), LinearRegression()),
             "DecisionTree": DecisionTreeRegressor(),
             "RandomForestRegressor": RandomForestRegressor(),
             "GradientBoostingRegressor": GradientBoostingRegressor(),
