@@ -37,8 +37,10 @@ class Config:
             'min_samples_split': [2, 5]
         },
         "RandomForestRegressor": {
-            'n_estimators': [50, 100],
-            'max_depth': [None, 10]
+            "max_depth": [5, 8, None],
+             "max_features": [3, 5, 7, "auto"],
+             "min_samples_split": [2, 5, 8, 15, 20],
+             "n_estimators": [100, 200, 500]
         },
         "GradientBoostingRegressor": {
             'n_estimators': [50, 100],
@@ -56,19 +58,20 @@ class Config:
             'p': [2]  # Sadece Euclidean distance
         },
         "XGBoost": {
-            'n_estimators': [50, 100],
-            'learning_rate': [0.1],
-            'max_depth': [3, 6]
+            "learning_rate": [0.1, 0.01, 0.001],
+                  "max_depth": [5, 8, 12, 15, 20],
+                  "n_estimators": [100, 500, 1000],
+                  "colsample_bytree": [0.5, 0.7, 1],
         },
         "LightGBM": {
-            'n_estimators': [50, 100],
-            'learning_rate': [0.1],
-            'num_leaves': [31]
+            "learning_rate": [0.01, 0.1, 0.001],
+               "n_estimators": [100, 300, 500, 1000],
+               "colsample_bytree": [0.5, 0.7, 1]
         },
         "CatBoost": {
-            'n_estimators': [50, 100],
-            'learning_rate': [0.1],
-            'depth': [6, 8]
+            "iterations": [200, 500],
+                   "learning_rate": [0.01, 0.1],
+                   "depth": [3, 6]
         }
     }
 
